@@ -1,0 +1,15 @@
+# dependencies
+node_modules
+pnpm-lock.yaml
+
+# env files
+*.env
+
+# build outputs
+.next
+dist
+__pycache__
+*.pyc
+
+# docker data
+pgdata
