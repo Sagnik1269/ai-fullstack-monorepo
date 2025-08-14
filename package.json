@@ -7,10 +7,19 @@
     "services/*"
   ],
   "scripts": {
-    "dev:web": "pnpm --filter web dev",
-    "dev:api": "pnpm --filter api dev",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev:llm": "bash -c 'cd services/llm && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000'",
+    "dev:all": "concurrently -n WEB,API,LLM -c green,blue,magenta \"pnpm run dev:web\" \"pnpm run dev:api\" \"pnpm run dev:llm\""
+
+  },
+  "dependencies": {
+    "pnpm": "^10.14.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   }
 }
