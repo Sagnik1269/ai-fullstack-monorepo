@@ -14,3 +14,15 @@ services:
     build: ./services/llm
     ports: ["8000:8000"]
     env_file: [ ./services/llm/.env ]
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: spend
+    ports: ["5432:5432"]
+    volumes: [ "pgdata:/var/lib/postgresql/data" ]
+
+volumes:
+  pgdata:

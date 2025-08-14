@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  type      String // e.g. "checking" | "credit" | "cash"
+  createdAt DateTime      @default(now())
+  txns      Transaction[]
+}
+
+model Category {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id         String    @id @default(cuid())
+  accountId  String
+  account    Account   @relation(fields: [accountId], references: [id])
+  date       DateTime
+  amount     Decimal   @db.Decimal(12, 2)
+  merchant   String?
+  raw        String?
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  note       String?
+  createdAt  DateTime  @default(now())
+
+  @@index([date])
+  @@index([categoryId])
+}
+
+model Budget {
+  id         String  @id @default(cuid())
+  month      String // "YYYY-MM"
+  categoryId String
+  cap        Decimal @db.Decimal(12, 2)
+}
+
+model Salary {
+  id        String   @id @default(cuid())
+  amount    Decimal  @db.Decimal(12, 2) // monthly or cadence-adjusted
+  cadence   String // "monthly" | "biweekly" | "weekly"
+  startDate DateTime @default(now())
+  active    Boolean  @default(true)
+}

@@ -3,16 +3,22 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import { z } from 'zod';
+import spend from './routes/spend';
+
+
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/spend', spend);
 
 const PORT = process.env.PORT || 4000;
 const LLM_URL = process.env.LLM_URL || 'http://localhost:8000';
 
 app.get('/healthz', (_req, res) => res.json({ ok: true }));
+
+app.get('/version', (_req, res) => res.json({ version: "0.1.0" }));
 
 const GenSchema = z.object({ requirement: z.string().min(10) });
 

@@ -33,6 +33,7 @@ Requirement:
             "Single-use link; second use shows already-used message.",
             "Enforce password policy and show helpful errors.",
             "Unicode emails supported; ensure normalization.",
+            "This is the extra bullet."
         ]}
     headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
     async with httpx.AsyncClient(timeout=60.0) as client:
